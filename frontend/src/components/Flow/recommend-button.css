@@ -1,0 +1,34 @@
+.recommend-button {
+  background-color: rgba(255, 122, 61, 0.10);
+  color: #FFa06a;
+  width: 8.5em;
+  height: 2.9em;
+  border: rgba(255, 122, 61, 0.25) 0.2em solid;
+  border-radius: 11px;
+  text-align: right;
+  transition: all 0.6s ease;
+  margin-left: 50%;
+}
+
+.recommend-button:hover {
+  border: rgba(255, 122, 61, 0.5) 0.2em solid;
+  background-color: rgba(255, 122, 61, 0.20);
+  cursor: pointer;
+  color: #FFc89a;
+}
+
+.recommend-button svg {
+  width: 1.6em;
+  margin: -0.2em -0.2em 0.2em;
+  position: absolute;
+  display: flex;
+  transition: all 0.6s ease;
+}
+
+.recommend-button:hover svg {
+  transform: translateX(5px);
+}
+
+.recommend-text {
+  margin: 0 2.5em
+}

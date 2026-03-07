@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="LOG_PATH" value="backend/data/logs"/>
+
+    <!-- ── ANSI colour helpers ──────────────────────────────────────────────── -->
+    <conversionRule conversionWord="clr"
+                    class="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    class="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+
+    <!-- ── Patterns ─────────────────────────────────────────────────────────── -->
+    <!--  Dev: coloured, human-readable  -->
+    <property name="DEV_PATTERN"
+              value="%clr(%d{HH:mm:ss}){faint} %clr(%-5level){highlight} %clr([%logger{0}]){cyan} %msg%n%wex"/>
+
+    <!--  Template for named categories: [INFO], [API], [AI], [GRAPH]  -->
+    <!--  These are emitted via the bracketed prefixes already in the code  -->
+    <property name="PROD_PATTERN"
+              value="%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %-5level [%thread] %logger{36} — %msg%n"/>
+
+    <!-- ── CONSOLE appender ─────────────────────────────────────────────────── -->
+    <springProfile name="!prod">
+        <!-- Development: coloured output -->
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${DEV_PATTERN}</pattern>
+                <charset>UTF-8</charset>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <springProfile name="prod">
+        <!-- Production: structured JSON-friendly single-line output -->
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${PROD_PATTERN}</pattern>
+                <charset>UTF-8</charset>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <!-- ── ROLLING FILE appender ────────────────────────────────────────────── -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/backend.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/backend-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>14</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PROD_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- ── Silence noisy frameworks ─────────────────────────────────────────── -->
+    <logger name="org.springframework"           level="WARN"/>
+    <logger name="org.neo4j"                     level="WARN"/>
+    <logger name="dev.langchain4j"               level="INFO"/>
+    <logger name="software.amazon.awssdk"        level="WARN"/>
+    <logger name="io.netty"                      level="WARN"/>
+    <logger name="org.hibernate"                 level="WARN"/>
+
+    <!-- ── Root logger ──────────────────────────────────────────────────────── -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>

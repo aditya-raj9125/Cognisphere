@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ReactFlow styles */
+.react-flow__container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.react-flow {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.react-flow__renderer {
+  width: 100%;
+  height: 100%;
+}
+
+.react-flow__node {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  z-index: 2;
+}
+
+.react-flow__node:hover {
+  box-shadow: none !important;
+}
+
+.react-flow__handle {
+  @apply bg-transparent w-0 h-0 border-0;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.react-flow__edge {
+  stroke: rgba(99, 102, 241, 0.5);
+  stroke-width: 2;
+  z-index: 1;
+}
+
+.react-flow__edge-path {
+  stroke: rgba(99, 102, 241, 0.5);
+  stroke-width: 2;
+  z-index: 1;
+}
+
+.react-flow__edge-text {
+  fill: #ffffff;
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+}
+
+.react-flow__edge-textbg {
+  fill: #0d1117 !important;
+  fill-opacity: 1 !important;
+}
+
+.react-flow__controls {
+  background: rgba(15, 20, 32, 0.92);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.react-flow__controls-button {
+  background: transparent;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+  fill: #94a3b8;
+}
+
+.react-flow__controls-button:hover {
+  background: rgba(99, 102, 241, 0.15);
+}
+
+.react-flow__minimap {
+  background: rgba(15, 20, 32, 0.92);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+html, 
+body, 
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Markdown content styles */
+.markdown-content {
+  @apply text-sm leading-relaxed;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.markdown-content h1 {
+  @apply text-2xl font-bold my-4;
+  color: #e2e8f0;
+}
+
+.markdown-content h2 {
+  @apply text-xl font-bold my-3;
+  color: #e2e8f0;
+}
+
+.markdown-content h3 {
+  @apply text-lg font-bold my-2;
+  color: #e2e8f0;
+}
+
+.markdown-content p {
+  @apply my-2;
+  color: #94a3b8;
+}
+
+.markdown-content ul, .markdown-content ol {
+  @apply my-2 pl-5;
+  color: #94a3b8;
+}
+
+.markdown-content li {
+  @apply my-1;
+}
+
+.markdown-content code {
+  @apply px-1 py-0.5 rounded text-sm font-mono;
+  background: rgba(99, 102, 241, 0.15);
+  color: #c7d2fe;
+}
+
+.markdown-content pre {
+  @apply p-3 rounded overflow-auto my-2;
+  background: rgba(15, 20, 32, 0.8);
+}
+
+.markdown-content pre code {
+  @apply bg-transparent p-0;
+}
+
+.markdown-content a {
+  color: #818cf8;
+  text-decoration: underline;
+}
+
+.markdown-content a:hover {
+  color: #a5b4fc;
+}
+
+.markdown-content blockquote {
+  @apply pl-3 my-2;
+  border-left: 4px solid rgba(99, 102, 241, 0.3);
+  color: #64748b;
+}
