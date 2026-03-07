@@ -31,9 +31,8 @@ jobs:
 
       - name: Build backend JAR
         run: |
-          cd backend
-          chmod +x mvnw
-          ./mvnw clean package -DskipTests
+          chmod +x ci/run-backend.sh
+          ./ci/run-backend.sh
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
