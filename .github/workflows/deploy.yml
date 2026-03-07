@@ -9,7 +9,7 @@ env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY_BACKEND: cognisphere-backend
   ECR_REPOSITORY_FRONTEND: cognisphere-frontend
-  ECS_CLUSTER: cognisphere-cluster
+  ECS_CLUSTER: cognisphereai-cluster
   ECS_SERVICE_BACKEND: cognisphere-backend-service
   ECS_SERVICE_FRONTEND: cognisphere-frontend-service
   ECS_TASK_DEFINITION_BACKEND: .aws/task-definition-backend.json
