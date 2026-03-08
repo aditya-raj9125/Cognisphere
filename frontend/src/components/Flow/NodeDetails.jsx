@@ -3,10 +3,10 @@ import ReactMarkdown from 'react-markdown';
 import { useReactFlow } from 'reactflow';
 import './recommend-button.css';
 
-export const NodeDetails = ({ 
-  selectedNode, 
-  onClose, 
-  onRecommend, 
+export const NodeDetails = ({
+  selectedNode,
+  onClose,
+  onRecommend,
   onConfirm,
   onDelete,
   hasRecommendations,
@@ -28,13 +28,13 @@ export const NodeDetails = ({
   }
 
   const handlePrevVideo = () => {
-    setCurrentVideoIndex(prev => 
+    setCurrentVideoIndex(prev =>
       prev === 0 ? selectedNode.detail.extra.video_urls.length - 1 : prev - 1
     );
   };
 
   const handleNextVideo = () => {
-    setCurrentVideoIndex(prev => 
+    setCurrentVideoIndex(prev =>
       prev === selectedNode.detail.extra.video_urls.length - 1 ? 0 : prev + 1
     );
   };
@@ -48,7 +48,7 @@ export const NodeDetails = ({
 
   const handleMouseDown = useCallback((e) => {
     if (e.target.closest('button') || e.target.closest('iframe')) return;
-    
+
     const detailsElement = detailsRef.current;
     if (!detailsElement) return;
 
@@ -90,7 +90,7 @@ export const NodeDetails = ({
           const detailsRect = detailsElement.getBoundingClientRect();
           const windowWidth = window.innerWidth;
           const windowHeight = window.innerHeight;
-          
+
           const nodeScreenPosition = {
             x: node.position.x * viewport.zoom + viewport.x,
             y: node.position.y * viewport.zoom + viewport.y
@@ -153,8 +153,8 @@ export const NodeDetails = ({
 
   if (!selectedNode) return null;
 
-  const content = selectedNode.data.isRecommendation 
-    ? selectedNode.data.summary 
+  const content = selectedNode.data.isRecommendation
+    ? selectedNode.data.summary
     : selectedNode.detail?.text || '';
 
   return (
@@ -167,9 +167,11 @@ export const NodeDetails = ({
         borderRadius: '12px',
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
         padding: '16px',
-        width: '500px',
+        width: '460px',
+        maxWidth: 'calc(100vw - 32px)',
         maxHeight: '450px',
-        overflow: 'auto',
+        overflowY: 'auto',
+        overflowX: 'hidden',
         zIndex: 5,
         cursor: isDragging ? 'grabbing' : 'grab',
         display: 'flex',
@@ -184,18 +186,22 @@ export const NodeDetails = ({
     >
       <div style={{
         display: 'flex',
-        justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: '12px',
         paddingBottom: '8px',
         borderBottom: '1px solid rgba(99, 102, 241, 0.1)',
         flexShrink: 0,
-        height: '30px'
+        gap: '8px',
+        overflow: 'hidden',
       }}>
+        {/* Tabs — flex:1 so they shrink and give room to action buttons */}
         <div style={{
           display: 'flex',
-          justifyContent: 'flex-start',
-          gap: '8px'
+          alignItems: 'center',
+          gap: '4px',
+          flex: 1,
+          minWidth: 0,
+          overflow: 'hidden',
         }}>
           <button
             onClick={() => setActiveTab('content')}
@@ -203,12 +209,14 @@ export const NodeDetails = ({
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              fontSize: '0.875rem',
+              fontSize: '0.8rem',
               color: activeTab === 'content' ? '#e2e8f0' : '#64748b',
               padding: '4px 8px',
               borderRadius: '4px',
               backgroundColor: activeTab === 'content' ? 'rgba(99, 102, 241, 0.2)' : 'transparent',
-              fontFamily: 'Inter, sans-serif'
+              fontFamily: 'Inter, sans-serif',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
             }}
             onMouseEnter={(e) => {
               if (activeTab !== 'content') e.target.style.backgroundColor = 'rgba(99, 102, 241, 0.12)'
@@ -225,13 +233,15 @@ export const NodeDetails = ({
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              fontSize: '0.875rem',
+              fontSize: '0.8rem',
               color: activeTab === 'video' ? '#e2e8f0' : '#64748b',
               padding: '4px 8px',
               borderRadius: '4px',
               backgroundColor: activeTab === 'video' ? 'rgba(99, 102, 241, 0.2)' : 'transparent',
               fontFamily: 'Inter, sans-serif',
               visibility: selectedNode.data?.isRecommendation ? 'hidden' : 'visible',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
             }}
             onMouseEnter={(e) => {
               if (activeTab !== 'video') e.target.style.backgroundColor = 'rgba(99, 102, 241, 0.12)'
@@ -248,13 +258,15 @@ export const NodeDetails = ({
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              fontSize: '0.875rem',
+              fontSize: '0.8rem',
               color: activeTab === 'other' ? '#e2e8f0' : '#64748b',
               padding: '4px 8px',
               borderRadius: '4px',
               backgroundColor: activeTab === 'other' ? 'rgba(99, 102, 241, 0.2)' : 'transparent',
               fontFamily: 'Inter, sans-serif',
               visibility: selectedNode.data?.isRecommendation ? 'hidden' : 'visible',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
             }}
             onMouseEnter={(e) => {
               if (activeTab !== 'other') e.target.style.backgroundColor = 'rgba(99, 102, 241, 0.12)'
@@ -264,6 +276,34 @@ export const NodeDetails = ({
             }}
           >
             Other
+          </button>
+        </div>
+
+        {/* Action buttons — always stay visible, never pushed off-screen */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+          <button
+            onClick={onClose}
+            style={{
+              padding: '4px 10px',
+              backgroundColor: 'rgba(239, 68, 68, 0.1)',
+              color: '#ef4444',
+              border: '1px solid rgba(239, 68, 68, 0.2)',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '0.8rem',
+              fontWeight: '500',
+              fontFamily: 'Inter, sans-serif',
+              transition: 'all 0.2s',
+              whiteSpace: 'nowrap',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+            }}
+          >
+            Close
           </button>
           <button className='recommend-button'
             onClick={() => {
@@ -281,44 +321,30 @@ export const NodeDetails = ({
               {hasPendingRecommendations ? 'Cancel' : 'Discover'}
             </div>
           </button>
+          {!selectedNode.data?.isRecommendation && (
+            <button
+              onClick={() => {
+                if (window.confirm('Delete this node? This cannot be undone.')) {
+                  onDelete(selectedNode.id);
+                }
+              }}
+              title="Delete node"
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '0 4px',
+                color: '#ef4444',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" style={{ width: '16px', height: '16px' }}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+              </svg>
+            </button>
+          )}
         </div>
-        <button 
-          onClick={onClose}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: '1.25rem',
-            color: '#94a3b8',
-            padding: '0 4px',
-            fontFamily: 'Inter, sans-serif'
-          }}
-        >
-          ×
-        </button>
-        {!selectedNode.data?.isRecommendation && (
-          <button
-            onClick={() => {
-              if (window.confirm('Delete this node? This cannot be undone.')) {
-                onDelete(selectedNode.id);
-              }
-            }}
-            title="Delete node"
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '0 4px',
-              color: '#ef4444',
-              display: 'flex',
-              alignItems: 'center'
-            }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" style={{ width: '16px', height: '16px' }}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-            </svg>
-          </button>
-        )}
       </div>
 
       {activeTab === 'content' ? (
@@ -379,9 +405,9 @@ export const NodeDetails = ({
                   visibility: currentVideoIndex === 0 ? 'hidden' : 'visible'
                 }}
               >
-                <img 
-                  src="https://api.iconify.design/fluent:chevron-left-24-regular.svg" 
-                  alt="Previous" 
+                <img
+                  src="https://api.iconify.design/fluent:chevron-left-24-regular.svg"
+                  alt="Previous"
                   style={{
                     width: '20px',
                     height: '20px',
@@ -389,11 +415,11 @@ export const NodeDetails = ({
                   }}
                 />
               </button>
-              <iframe 
-                width="100%" 
-                height="250" 
-                src={convertToEmbedUrl(selectedNode.detail.extra.video_urls[currentVideoIndex])} 
-                frameBorder="0" 
+              <iframe
+                width="100%"
+                height="250"
+                src={convertToEmbedUrl(selectedNode.detail.extra.video_urls[currentVideoIndex])}
+                frameBorder="0"
                 allowFullScreen
                 style={{
                   borderRadius: '8px',
@@ -422,9 +448,9 @@ export const NodeDetails = ({
                   visibility: currentVideoIndex === selectedNode.detail.extra.video_urls.length - 1 ? 'hidden' : 'visible'
                 }}
               >
-                <img 
-                  src="https://api.iconify.design/fluent:chevron-right-24-regular.svg" 
-                  alt="Next" 
+                <img
+                  src="https://api.iconify.design/fluent:chevron-right-24-regular.svg"
+                  alt="Next"
                   style={{
                     width: '20px',
                     height: '20px',

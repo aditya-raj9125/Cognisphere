@@ -24,7 +24,7 @@ export const useNodeManagement = ({
       const recommendations = await fetchRecommendation(selectedNode.id);
       if (recommendations && recommendations.length > 0) {
         setHasPendingRecommendations(true);
-        
+
         // Clear old recommendation nodes and edges
         // setNodes((nds) => nds.filter((node) => !node.data.isRecommendation));
         // setEdges((eds) => eds.filter((edge) => !edge.id.startsWith(`edge-${selectedNode.id}-`)));
@@ -68,6 +68,8 @@ export const useNodeManagement = ({
           setNodes((nds) => [...nds, ...newNodes]);
           setEdges((eds) => [...eds, ...newEdges]);
           setRecommendationNodes(newNodes);
+          // Auto-fit viewport so new recommendation nodes are visible
+          if (window.fitGraphView) setTimeout(() => window.fitGraphView(), 100);
         });
       }
     } catch (error) {
@@ -140,6 +142,9 @@ export const useNodeManagement = ({
       setSelectedNode(null);
       setHasPendingRecommendations(false);
       setRecommendationNodes([]);
+
+      // Auto-fit viewport so new node is visible
+      if (window.fitGraphView) window.fitGraphView();
     } catch (error) {
       console.error('Error confirming recommendation:', error);
     } finally {

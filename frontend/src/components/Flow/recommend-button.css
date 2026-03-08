@@ -1,34 +1,42 @@
 .recommend-button {
   background-color: rgba(255, 122, 61, 0.10);
   color: #FFa06a;
-  width: 8.5em;
-  height: 2.9em;
-  border: rgba(255, 122, 61, 0.25) 0.2em solid;
-  border-radius: 11px;
+  height: 2em;
+  border: rgba(255, 122, 61, 0.25) 0.15em solid;
+  border-radius: 8px;
   text-align: right;
-  transition: all 0.6s ease;
-  margin-left: 50%;
+  transition: all 0.4s ease;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px 0 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
 }
 
 .recommend-button:hover {
-  border: rgba(255, 122, 61, 0.5) 0.2em solid;
+  border: rgba(255, 122, 61, 0.5) 0.15em solid;
   background-color: rgba(255, 122, 61, 0.20);
   cursor: pointer;
   color: #FFc89a;
 }
 
 .recommend-button svg {
-  width: 1.6em;
-  margin: -0.2em -0.2em 0.2em;
-  position: absolute;
-  display: flex;
-  transition: all 0.6s ease;
+  width: 1.1em;
+  height: 1.1em;
+  margin-right: 4px;
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  transition: transform 0.4s ease;
 }
 
 .recommend-button:hover svg {
-  transform: translateX(5px);
+  transform: translateX(4px);
 }
 
 .recommend-text {
-  margin: 0 2.5em
+  font-size: 0.8rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
 }

@@ -44,16 +44,16 @@ const getCategoryBg = (category) =>
 
 /* ─────────── Category cluster anchor positions ─────────── */
 const CATEGORY_ANCHORS = {
-  science: { x: -800, y: -600 },
-  technology: { x: 400, y: -600 },
-  news: { x: 900, y: 0 },
-  academics: { x: -800, y: 400 },
-  arts: { x: 0, y: 700 },
-  health: { x: 700, y: 500 },
-  business: { x: 200, y: -900 },
-  history: { x: -400, y: 700 },
+  science: { x: -200, y: -150 },
+  technology: { x: 100, y: -150 },
+  news: { x: 200, y: 0 },
+  academics: { x: -200, y: 100 },
+  arts: { x: 0, y: 180 },
+  health: { x: 180, y: 120 },
+  business: { x: 50, y: -220 },
+  history: { x: -100, y: 180 },
   general: { x: 0, y: 0 },
-  chat: { x: -200, y: -350 },
+  chat: { x: -50, y: -80 },
 };
 
 const getAnchor = (category) =>
@@ -92,15 +92,15 @@ const getForceLayoutedElements = (nodes, edges) => {
   const simulation = forceSimulation(nodesCopy)
     .force('link', forceLink(edgesCopy)
       .id(d => d.id)
-      .distance(180)
-      .strength(0.3)
+      .distance(120)
+      .strength(0.4)
     )
     .force('charge', forceManyBody()
-      .strength(-400)
+      .strength(-300)
     )
-    .force('center', forceCenter(0, 0))
+    .force('center', forceCenter(0, 0).strength(0.15))
     .force('collision', forceCollide()
-      .radius(110)
+      .radius(70)
       .strength(1)
     )
     .force('cluster', categoryClusterForce);
@@ -216,7 +216,7 @@ const FlowInner = () => {
             label: node.title,
             content: node.title,
             isRecommendation: false,
-            size: 80,
+            size: 48,
             isSelected: false,
             category: node.category || 'general',
             subcategory: node.subcategory || 'knowledge',
@@ -259,8 +259,8 @@ const FlowInner = () => {
           setEdges(layoutedEdges);
           // Fit viewport after nodes are set so they're visible
           setTimeout(() => {
-            reactFlowInstance.fitView({ padding: 0.3, duration: 300 });
-          }, 50);
+            reactFlowInstance.fitView({ padding: 0.5, duration: 400 });
+          }, 80);
         });
       }
     } catch (error) {
@@ -327,7 +327,7 @@ const FlowInner = () => {
       event.preventDefault();
       event.stopPropagation();
 
-      // 如果节点已经被选中，则取消选中
+
       if (selectedNodes.includes(node.id)) {
         const newSelectedNodes = selectedNodes.filter(id => id !== node.id);
         setSelectedNodes(newSelectedNodes);
@@ -341,7 +341,7 @@ const FlowInner = () => {
           }))
         );
       } else {
-        // 如果节点未被选中，且选中数量小于3，则选中该节点
+
         if (selectedNodes.length < 3) {
           const newSelectedNodes = [...selectedNodes, node.id];
           setSelectedNodes(newSelectedNodes);
@@ -503,6 +503,11 @@ const FlowInner = () => {
   }, [nodes, fetchData]);
 
   window.refreshFlow = debouncedRefresh;
+  window.fitGraphView = () => {
+    setTimeout(() => {
+      reactFlowInstance.fitView({ padding: 0.5, duration: 400 });
+    }, 200);
+  };
   window.getSelectedNode = () => selectedNode;
   window.setSelectedNode = (node) => {
     if (isPanMode && node) {
@@ -691,6 +696,7 @@ const FlowInner = () => {
         onNodeDragStop={onNodeDragStop}
         nodeTypes={nodeTypes}
         fitView
+        fitViewOptions={{ padding: 0.5 }}
         proOptions={{ hideAttribution: true }}
         nodesDraggable={isPanMode}
         nodesConnectable={false}

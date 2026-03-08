@@ -149,7 +149,33 @@ export const UploadBox = ({ onUploadSuccess, isLoading, setIsLoading, selectedNo
             width: '400px',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
             border: '1px solid rgba(99, 102, 241, 0.15)',
+            position: 'relative'
           }}>
+            <button
+              onClick={() => {
+                setShowOptions(false);
+                setSelectedOption(null);
+              }}
+              style={{
+                position: 'absolute',
+                top: '12px',
+                right: '12px',
+                background: 'none',
+                border: 'none',
+                color: '#94a3b8',
+                fontSize: '20px',
+                cursor: 'pointer',
+                fontFamily: 'Inter, sans-serif',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '24px',
+                height: '24px',
+                padding: '0'
+              }}
+            >
+              ×
+            </button>
             <h3 style={{
               margin: '0 0 16px 0',
               fontSize: '24px',

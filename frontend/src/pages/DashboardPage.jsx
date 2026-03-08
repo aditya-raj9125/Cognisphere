@@ -30,7 +30,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const [activePanel, setActivePanel] = useState('both');
-  const [splitPct, setSplitPct] = useState(60);   // graph %
+  const [splitPct, setSplitPct] = useState(75);   // graph % — default 75/25 split
 
   const isDragging = useRef(false);
   const containerRef = useRef(null);
