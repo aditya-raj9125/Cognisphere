@@ -10,8 +10,8 @@ env:
   ECR_REPOSITORY_BACKEND: cognisphere-backend
   ECR_REPOSITORY_FRONTEND: cognisphere-frontend
   ECS_CLUSTER: cognisphereai-cluster
-  ECS_SERVICE_BACKEND: cognisphere-backend-service
-  ECS_SERVICE_FRONTEND: cognisphere-frontend-service
+  ECS_SERVICE_BACKEND: cognisphere-backend-service-gj0dpeaj
+  ECS_SERVICE_FRONTEND: cognisphere-backend-service-gj0dpeaj
   ECS_TASK_DEFINITION_BACKEND: .aws/task-definition-backend.json
   ECS_TASK_DEFINITION_FRONTEND: .aws/task-definition-frontend.json
 
